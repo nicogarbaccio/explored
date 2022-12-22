@@ -1,3 +1,4 @@
 class GradeSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :grade
+  has_one :submission
 end

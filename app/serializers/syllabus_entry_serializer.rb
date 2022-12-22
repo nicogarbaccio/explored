@@ -1,3 +1,4 @@
 class SyllabusEntrySerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :date, :assignment
+  has_one :syllabus
 end

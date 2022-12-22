@@ -1,2 +1,4 @@
 class SyllabusEntry < ApplicationRecord
-end
+    belongs_to :syllabus
+  end
+  

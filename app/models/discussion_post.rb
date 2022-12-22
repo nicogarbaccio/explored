@@ -1,2 +1,5 @@
 class DiscussionPost < ApplicationRecord
-end
+    belongs_to :discussion
+    belongs_to :student
+  end
+  
