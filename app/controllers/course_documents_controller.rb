@@ -1,0 +1,2 @@
+class CourseDocumentsController < ApplicationController
+end

@@ -1,0 +1,2 @@
+class CourseDocument < ApplicationRecord
+end
