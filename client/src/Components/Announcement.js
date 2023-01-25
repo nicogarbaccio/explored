@@ -14,6 +14,7 @@ function Announcement(){
     const { id } = useParams();
     const { user } = useContext(UserContext);
     const [formData, setFormData] = useState([]);
+    const [pinned, setPinned] = useState(announcement.pinned);
 
     useEffect(() => {
         fetch(`/announcements/${id}`)
@@ -23,7 +24,8 @@ function Announcement(){
         setIsLoaded(true)
         setFormData({
             title: announcement.title,
-            body: announcement.body
+            body: announcement.body,
+            pinned: announcement.pinned
         })
     })
     }, [id])
@@ -37,6 +39,19 @@ function Announcement(){
 
     function toggleEdit(){
         setShow(!show)
+    }
+
+    function togglePin(){
+        fetch(`/announcements/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(announcement.pinned),
+        })
+        .then(res => res.json())
+        .then(setPinned(!announcement.pinned))
+        .then(console.log(announcement))
     }
 
     function handleDeleteAnnouncement(){
@@ -69,6 +84,8 @@ function Announcement(){
             </div>
             {user?.admin ?
                 <div>
+                <button onClick={togglePin} className="text-white bg-charcoal hover:bg-yellow focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-3 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-6 block">Pin Announcement</button>
+                <p>{pinned ? "Announcement pinned!" : "Not pinned"}</p>
                 <button onClick={toggleEdit} className="text-white bg-charcoal hover:bg-yellow focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-3 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-6 block">Edit Announcement</button>
                 <button onClick={handleDeleteAnnouncement} className="text-white bg-red-200 hover:bg-red-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-3 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-6 block">Delete Announcement</button>
                 <form onSubmit={handlePatch} className={show ? "show w-1/2 mt-4" : "hide"}>

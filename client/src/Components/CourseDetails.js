@@ -21,6 +21,7 @@ function CourseDetails(){
     const navigate = useNavigate();
     const { id } = useParams();
     const { user } = useContext(UserContext);
+    const [announcements, setAnnouncements] = useState({});
 
     useEffect(() => {
         fetch(`/courses/${id}`)
@@ -29,6 +30,15 @@ function CourseDetails(){
         setCourse(course);
         setIsLoaded(true)
     })
+    }, [id])
+
+    useEffect(() => {
+        fetch(`/courses/${id}/announcements`)
+        .then((r) => r.json())
+        .then(announcements => {
+            setAnnouncements(announcements)
+            console.log(announcements)
+        })
     }, [id])
 
     if (!isLoaded) return <h2>Loading...</h2>
@@ -48,6 +58,10 @@ function CourseDetails(){
     return (
         <div className='min-h-screen bg-slate-200 pt-10 flex flex-col items-center'>
             <h1 className='text-3xl font-bold underline underline-offset-8 mb-5'>{course.title} ({course.code})</h1>
+            <div>
+                <h2 className='text-2xl mb-5'>Pinned Posts</h2>
+                {/* Filter pinned announcements */}
+            </div>
             {!course.syllabus && user.admin ?
             <div>
                     <h2 className='my-4'>Begin building your course by adding a description for your class.</h2>
