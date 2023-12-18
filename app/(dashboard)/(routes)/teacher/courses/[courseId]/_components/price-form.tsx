@@ -49,9 +49,6 @@ export const PriceForm = ({ initialData, courseId }: PriceFormProps) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      if (values.isFree) {
-        values.price = 0;
-      }
       await axios.patch(`/api/courses/${courseId}`, values);
       toast.success("Course updated!");
       toggleEdit();
