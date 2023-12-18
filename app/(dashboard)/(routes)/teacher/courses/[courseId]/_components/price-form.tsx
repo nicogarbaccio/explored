@@ -15,7 +15,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -34,6 +34,7 @@ const formSchema = z.object({
 
 export const PriceForm = ({ initialData, courseId }: PriceFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
+
   const toggleEdit = () => setIsEditing((current) => !current);
   const router = useRouter();
 
@@ -48,6 +49,9 @@ export const PriceForm = ({ initialData, courseId }: PriceFormProps) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      if (values.isFree) {
+        values.price = 0;
+      }
       await axios.patch(`/api/courses/${courseId}`, values);
       toast.success("Course updated!");
       toggleEdit();
@@ -79,9 +83,13 @@ export const PriceForm = ({ initialData, courseId }: PriceFormProps) => {
             !initialData.price && "text-slate-500 italic"
           )}
         >
-          {initialData.price ? formatPrice(initialData.price) : "No price"}
+          {initialData.price ? formatPrice(initialData.price) : "Free"}
         </p>
       )}
+      <p className="text-xs text-muted-foreground mt-4">
+        By default, courses are free. You only need to fill in this field if you
+        want to charge for this course.
+      </p>
       {isEditing && (
         <Form {...form}>
           <form

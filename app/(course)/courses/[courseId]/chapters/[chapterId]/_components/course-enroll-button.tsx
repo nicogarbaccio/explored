@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/format";
 
+import { db } from "@/lib/db";
+
 interface CourseEnrollButtonProps {
   price: number;
   courseId: string;
@@ -39,7 +41,7 @@ export const CourseEnrollButton = ({
       size="sm"
       className="w-full md:w-auto"
     >
-      Enroll for {formatPrice(price)}
+      {price ? `Enroll for ${formatPrice(price)}` : "Enroll for free"}
     </Button>
   );
 };

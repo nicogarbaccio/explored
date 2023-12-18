@@ -56,7 +56,8 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
     course.title,
     course.description,
     course.imageUrl,
-    course.price,
+    // course.price,
+    // course.price !== null && course.price !== undefined,
     course.categoryId,
     course.chapters.some((chapter) => chapter.isPublished),
   ];
@@ -118,7 +119,9 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
                 <IconBadge icon={CircleDollarSign} />
                 <h2 className="text-xl">Sell your course</h2>
               </div>
-              <PriceForm initialData={course} courseId={course.id} />
+              <>
+                <PriceForm initialData={course} courseId={course.id} />
+              </>
             </div>
             <div>
               <div className="flex items-center gap-x-2">
