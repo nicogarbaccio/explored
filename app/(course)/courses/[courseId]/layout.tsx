@@ -7,6 +7,8 @@ import { getProgress } from "@/actions/get-progress";
 import { CourseSidebar } from "./_components/course-sidebar";
 import { CourseNavbar } from "./_components/course-navbar";
 
+import { Logo } from "@/app/(dashboard)/_components/logo";
+
 const CourseLayout = async ({
   children,
   params,
@@ -55,6 +57,9 @@ const CourseLayout = async ({
         <CourseNavbar course={course} progressCount={progressCount} />
       </div>
       <div className="hidden md:flex h-full w-80 flex-col fixed inset-y-0 z-50">
+        <div className="p-6">
+          <Logo />
+        </div>
         <CourseSidebar course={course} progressCount={progressCount} />
       </div>
       <main className="md:pl-80 pt-[80px] h-full">{children}</main>
